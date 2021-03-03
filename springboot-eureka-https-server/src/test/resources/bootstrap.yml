@@ -1,0 +1,16 @@
+eureka:
+  instance:
+    preferIpAddress: false
+    metadataMap:
+      zone: zone-local
+  client:
+    serviceUrl:
+      defaultZone: https://localhost:8761/eureka/
+    preferSameZoneEureka: true
+server:
+  port: 443
+  ssl:
+    enabled: on
+spring:
+  application:
+    name: eureka-server-zone-local

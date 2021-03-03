@@ -1,0 +1,39 @@
+version: "3.6"
+
+services:
+  eureka-service-zone1:
+    container_name: eureka-server1
+    build:
+      context: ./springboot-eureka-https-server
+      dockerfile: Dockerfile
+      args:
+        - PROFILE=zone1
+    ports:
+      - "443:18671"
+    environment:
+      - eureka-host1=eureka-server1
+      - eureka-port1=8671
+      - eureka-host2=eureka-server2
+      - eureka-port2=8672
+    networks:
+      - eureka
+  eureka-service-zone2:
+    container_name: eureka-server2
+    build:
+      context: ./springboot-eureka-https-server
+      dockerfile: Dockerfile
+      args:
+        - PROFILE=zone2
+    ports:
+      - "443:18672"
+    environment:
+      - eureka-host1=eureka-server2
+      - eureka-port1=8672
+      - eureka-host2=eureka-server1
+      - eureka-port2=8671
+    networks:
+      - eureka
+
+networks:
+  eureka:
+    driver: bridge

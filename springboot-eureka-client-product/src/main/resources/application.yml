@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: product-zone1
+eureka:
+  instance:
+    secure-port-enabled: true
+  client:
+    serviceUrl:
+      defaultZone: https://localhost:8671/eureka/
+
+ssl:
+  eureka-client:
+    key-store: client.p12
+    key-store-password: 123456

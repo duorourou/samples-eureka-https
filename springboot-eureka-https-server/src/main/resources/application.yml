@@ -1,0 +1,64 @@
+server:
+  ssl:
+    enabled: on
+    key-store: classpath:server.p12
+    key-alias: eureka-local-server
+    key-store-password: 123456
+    keyStoreType: PKCS12
+    protocol: TLS
+  port:
+    8671
+
+
+spring:
+  application:
+    name: eureka-server-${spring.profiles.active}
+  profiles:
+    active: zone2
+
+ssl:
+  eureka-client:
+    key-store: client.p12
+    key-store-password: 123456
+
+---
+spring:
+  profiles: zone2
+
+server:
+  port: 8672
+
+eureka:
+  instance:
+    preferIpAddress: false
+    hostname: eureka-2
+    non-secure-port-enabled: false
+    secure-port-enabled: on
+    secure-port: ${server.port}
+  client:
+    serviceUrl:
+      defaultZone: https://localhost:8671/eureka
+    preferSameZoneEureka: true
+    fetch-registry: on
+    enabled: on
+    eureka-server-d-n-s-name: localhost
+
+---
+
+spring:
+  profiles: zone1
+
+eureka:
+  instance:
+    preferIpAddress: false
+    hostname: eureka-1
+    non-secure-port-enabled: false
+    secure-port-enabled: on
+    secure-port: ${server.port}
+  client:
+    serviceUrl:
+      defaultZone: https://localhost:8672/eureka
+    preferSameZoneEureka: true
+    fetch-registry: on
+    enabled: on
+    eureka-server-d-n-s-name: localhost
